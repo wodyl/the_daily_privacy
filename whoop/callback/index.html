@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WHOOP OAuth Callback — the_daily</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <main>
+    <h1>WHOOP OAuth Callback</h1>
+
+    <p>
+      This page is the OAuth redirect handler for the_daily's WHOOP integration.
+      After authorizing access in WHOOP, your browser is sent here with a temporary
+      authorization code. Token exchange is handled separately by the_daily and does
+      not occur on this static page.
+    </p>
+
+    <h2>Detected Parameters</h2>
+    <div id="params"></div>
+
+    <script>
+      const container = document.getElementById('params');
+      const params = new URLSearchParams(window.location.search);
+      const keys = ['code', 'error', 'error_description', 'state'];
+      const found = [];
+
+      keys.forEach(function(key) {
+        if (params.has(key)) {
+          found.push({ key: key, value: params.get(key) });
+        }
+      });
+
+      // also surface any unexpected params
+      params.forEach(function(value, key) {
+        if (!keys.includes(key)) {
+          found.push({ key: key, value: value });
+        }
+      });
+
+      if (found.length === 0) {
+        const p = document.createElement('p');
+        p.className = 'meta';
+        p.textContent = 'No query parameters present. This page was loaded directly, not via an OAuth redirect.';
+        container.appendChild(p);
+      } else {
+        const table = document.createElement('table');
+        found.forEach(function(item) {
+          const tr = document.createElement('tr');
+          const th = document.createElement('th');
+          th.textContent = item.key;
+          const td = document.createElement('td');
+          td.textContent = item.value;
+          tr.appendChild(th);
+          tr.appendChild(td);
+          table.appendChild(tr);
+        });
+        container.appendChild(table);
+      }
+    </script>
+
+    <h2>Next Step</h2>
+    <p>
+      If you arrived here after approving access in WHOOP, the authorization code above
+      will be picked up by the_daily to complete the token exchange. You can close this
+      tab or return to the_daily.
+    </p>
+  </main>
+</body>
+</html>

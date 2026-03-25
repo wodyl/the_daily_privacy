@@ -1,12 +1,21 @@
 # the_daily_privacy
 
-Static privacy policy site for the_daily's WHOOP integration.
+Static privacy policy and OAuth callback site for the_daily's WHOOP integration.
 
 ## Pages
 
-| Route | File |
-|-------|------|
-| `/privacy` | `privacy/index.html` |
+| Route | File | Purpose |
+|-------|------|---------|
+| `/privacy` | `privacy/index.html` | Privacy policy (required for WHOOP app registration) |
+| `/whoop/callback` | `whoop/callback/index.html` | WHOOP OAuth redirect URL (register this in WHOOP developer dashboard) |
+
+### WHOOP Developer Dashboard — Redirect URL
+
+Register exactly this URL:
+
+```
+https://the-daily-privacy.vercel.app/whoop/callback
+```
 
 ## Deploy to Vercel
 
